@@ -4,10 +4,11 @@
 #include <stdarg.h>
 #include <stdlib.h>
 /**
+ * struct fmt - struct for formats
  * @identifier: character
  * @f: function match
  */
-typedef struct fmt 
+typedef struct fmt
 {
 	char identifier;
 	char *(*f)(va_list, char *);
