@@ -14,8 +14,9 @@ char *handle_print_char(va_list list, char *buffer)
 {
 	char current = va_arg(list, int);
 
-	*buffer = current;
-	return (++buffer);
+	if (current)
+		*buffer = current, buffer++;
+	return (buffer);
 }
 
 /**
@@ -29,6 +30,8 @@ char *handle_print_string(va_list list, char *buffer)
 	char *current;
 
 	current = va_arg(list, char *);
+	if (!current)
+		current = "(null)";
 	while (*current)
 		*buffer = *current, buffer++, current++;
 	return (buffer);
