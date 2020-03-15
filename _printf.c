@@ -45,9 +45,9 @@ char * (*get_fmt_funct(const char *s))(va_list, char *)
  */
 int _printf(const char *format, ...)
 {
-	char *buff = malloc(sizeof(char) * 2048), *org, *aux = NULL;
+	char *buff = malloc(sizeof(char) * 2048), *org;
+	char *(*funct)(va_list, char *) = NULL;
 	va_list args;
-	unsigned int size = 0, org_s = 0;
 
 	if (!buff)
 	{
@@ -56,21 +56,30 @@ int _printf(const char *format, ...)
 	}
 	org = buff;
 	va_start(args, format);
-	while (*format)
+	if (format)
 	{
-		if (*format == '%')
+		while (*format)
 		{
-			org_s = str_ln(org);
-			aux = get_fmt_funct(++format)(args, buff);
-			if (aux)
-				size += str_ln(org) - org_s, buff = aux;
+			if (*format == '%')
+			{
+				funct = get_fmt_funct(++format);
+				if (funct)
+				{
+					buff = funct(args, buff);
+				}
+				else
+					*buff = *format, buff++;
+			}
 			else
-				exit(98);
+				*buff = *format, buff++;
+			format++;
 		}
-		else
-			*buff = *format, buff++,  size++;
-		format++;
 	}
-	va_end(args), write(1, org, size), free(org);
-	return (size);
+	else
+	{
+		write(2, "zero-length gnu_printf format string\n", 37);
+		return (2);
+	}
+	*buff = '\0', va_end(args), write(1, org, str_ln(org)), free(org);
+	return (str_ln(org));
 }
