@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 /**
  * str_ln - calcualte the lenght of a string
  * @p: the string to messure
@@ -18,7 +19,7 @@ int str_ln(char *p)
  * Return: the string reverser
  */
 
-char *rev_string(char *s)
+void rev_string(char *s)
 {
 	int  back, front, len;
 	char aux;
@@ -34,29 +35,82 @@ char *rev_string(char *s)
 		back--;
 		front++;
 	}
-	return (s);
 }
 
 /**
  * converToStrBase - converts a int
  * into a string with a specificl base
- * @num: the number to convert
- * @base: the base to convert the number to (max base = 16)
+ * @current: the currentber to convert
+ * @base: the base to convert the currentber to (max base = 16)
+ * @cursor: cursor to write in
  * Return: a pointer to the converted string
  */
 
-char *converToStrBase(int num, unsigned int base, char *ptr)
+char *converToStrBase(unsigned int current, unsigned int base, char *cursor)
 {
-	char dict[] = "0123456789abcdef";
+	char *dict = "0123456789abcdef";
 	char *org;
 
-	org = ptr;
-	while (num != 0)
+	org = cursor;
+	while (current != 0)
 	{
-		*ptr = dict[num % base];
-		num = num / base;
-		ptr++;
+		*cursor = dict[current % base];
+		current = current / base;
+		cursor++;
 	}
 	rev_string(org);
-	return (ptr);
+	return (cursor);
+}
+
+/**
+ * converToStrPointer - converts a int
+ * into a string with a specificl base
+ * @current: the currentber to convert
+ * @base: the base to convert the currentber to (max base = 16)
+ * @cursor: cursor to write in
+ * Return: a pointer to the converted string
+ */
+
+char *converToStrPointer(long int current, unsigned int base, char *cursor)
+{
+	char *dict = "0123456789abcdef";
+	char *org;
+
+	org = cursor;
+
+	while (current != 0)
+	{
+		*cursor = dict[current % base];
+		current = current / base;
+		cursor++;
+	}
+	*cursor = 'x', cursor++;
+	*cursor = '0', cursor++;
+	rev_string(org);
+	return (cursor);
+}
+
+/**
+ * converToUprStrBase - converts a int
+ * into a string with a specificl base
+ * @current: the currentber to convert
+ * @base: the base to convert the currentber to (max base = 16)
+ * @cursor: cursor to write in
+ * Return: a pointer to the converted string
+ */
+
+char *converToUprStrBase(unsigned int current, unsigned int base, char *cursor)
+{
+	char *dict = "0123456789ABCDEF";
+	char *org;
+
+	org = cursor;
+	while (current != 0)
+	{
+		*cursor = dict[current % base];
+		current = current / base;
+		cursor++;
+	}
+	rev_string(org);
+	return (cursor);
 }
