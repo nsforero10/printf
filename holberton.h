@@ -16,12 +16,15 @@ typedef struct fmt
 
 int str_ln (char *p);
 void *rev_string(char *s);
-char *converToStrBase(int num, unsigned int base, char *ptr);
+char *converToStrBase(unsigned int num, unsigned int base, char *ptr);
+void *_calloc(unsigned int nmemb, unsigned int size);
 
 int _printf(const char *format, ...);
 char *handle_print_char(va_list list, char *cursor);
 char *handle_print_string(va_list list, char *cursor);
+char *handle_print_uint(va_list list, char *cursor);
 char *handle_print_int(va_list list, char *cursor);
+
 
 
 #endif

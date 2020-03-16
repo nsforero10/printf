@@ -15,7 +15,8 @@ char * (*get_fmt_funct(const char *s))(va_list, char *)
 		{'c', handle_print_char},
 		{'s', handle_print_string},
 		{'d', handle_print_int},
-		{'i', handle_print_int}
+		{'i', handle_print_int},
+		{'u', handle_print_uint}
 	};
 
 	while (fmts[i].identifier)
@@ -34,7 +35,7 @@ char * (*get_fmt_funct(const char *s))(va_list, char *)
  */
 int _printf(const char *format, ...)
 {
-	char *buff = malloc(sizeof(char) * 2048), *cursor = buff;
+	char *buff = calloc(2048, 1), *cursor = buff;
 	char *(*funct)(va_list, char *) = NULL;
 	va_list args;
 
@@ -67,6 +68,7 @@ int _printf(const char *format, ...)
 		write(2, "zero-length gnu_printf format string\n", 37);
 		return (2);
 	} 
-	*cursor = '\0', write(1, buff, str_ln(buff)), free(buff);
+	*cursor = '\0', write(1, buff, str_ln(buff));
+	free(buff);
 	return (str_ln(buff));
 }
