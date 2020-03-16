@@ -1,9 +1,8 @@
 *
 !*.*
-*~
-#*#
-*main*
 _putchar.c
+*main*
 !*/
+!*test/
 /.vscode
 a.out

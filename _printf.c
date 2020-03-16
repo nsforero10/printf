@@ -3,19 +3,6 @@
 #include <unistd.h>
 
 /**
- * str_ln - calculates the lenght of a string
- * @p: the string to messure
- * Return: the lenght of the string
- */
-int str_ln(char *p)
-{
-	int i = 0;
-
-	while (*p)
-		i++, p++;
-	return (i);
-}
-/**
  * get_fmt_funct - get the apropiatted function to handle
  * the the conversion
  * @s: the identifier to handle
@@ -26,7 +13,18 @@ char * (*get_fmt_funct(const char *s))(va_list, char *)
 	unsigned int i = 0;
 	format_t fmts[] = {
 		{'c', handle_print_char},
-		{'s', handle_print_string}
+		{'s', handle_print_string},
+		{'d', handle_print_int},
+		{'i', handle_print_int},
+		{'u', handle_print_uint},
+		{'b', handle_print_binary},
+		{'o', handle_print_octal},
+		{'x', handle_print_hexa},
+		{'X', handle_print_upper_hexa},
+		{'p', handle_print_pointer},
+		{'r', handle_print_reversed_string},
+		{'S', handle_print_custom_string},
+		{'R', handle_print_rot13_string}
 	};
 
 	while (fmts[i].identifier)
@@ -45,41 +43,40 @@ char * (*get_fmt_funct(const char *s))(va_list, char *)
  */
 int _printf(const char *format, ...)
 {
-	char *buff = malloc(sizeof(char) * 2048), *org;
+	char *buff = calloc(2048, 1), *cursor = buff;
 	char *(*funct)(va_list, char *) = NULL;
 	va_list args;
 
-	if (!buff)
+	if (!cursor)
 	{
-		free(buff);
+		free(cursor);
 		return (0);
 	}
-	org = buff;
-	va_start(args, format);
 	if (format)
 	{
+		va_start(args, format);
 		while (*format)
 		{
 			if (*format == '%')
 			{
 				funct = get_fmt_funct(++format);
 				if (funct)
-				{
-					buff = funct(args, buff);
-				}
+					cursor = funct(args, cursor);
 				else
-					*buff = *format, buff++;
+					*cursor = *format, cursor++;
 			}
 			else
-				*buff = *format, buff++;
+				*cursor = *format, cursor++;
 			format++;
 		}
+		va_end(args);
 	}
 	else
 	{
 		write(2, "zero-length gnu_printf format string\n", 37);
 		return (2);
 	}
-	*buff = '\0', va_end(args), write(1, org, str_ln(org)), free(org);
-	return (str_ln(org));
+	*cursor = '\0', write(1, buff, str_ln(buff));
+	free(buff);
+	return (str_ln(buff));
 }
