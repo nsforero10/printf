@@ -14,9 +14,14 @@ typedef struct fmt
 	char *(*f)(va_list, char *);
 } format_t;
 
+int str_ln (char *p);
+void *rev_string(char *s);
+char *converToStrBase(int num, unsigned int base, char *ptr);
+
 int _printf(const char *format, ...);
-char *handle_print_char(va_list list, char *buffer);
-char *handle_print_string(va_list list, char *buffer);
+char *handle_print_char(va_list list, char *cursor);
+char *handle_print_string(va_list list, char *cursor);
+char *handle_print_int(va_list list, char *cursor);
 
 
 #endif

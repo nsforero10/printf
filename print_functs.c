@@ -36,3 +36,18 @@ char *handle_print_string(va_list list, char *buffer)
 		*buffer = *current, buffer++, current++;
 	return (buffer);
 }
+
+/**
+ * handle_print_int - handles fill the buffer with chars
+ * @list: - va_list to extract the data
+ * @buffer: - the buffer to fill
+ * Return: the buffer filled
+ */
+char *handle_print_int(va_list list, char *buffer)
+{
+	int current = va_arg(list, int);
+
+	if (current)
+		buffer = converToStrBase(current, 10, buffer);
+	return (buffer);
+}
