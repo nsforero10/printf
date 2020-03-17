@@ -1,0 +1,25 @@
+.TH _printf 1 "17 Mar 2020" "version 1.0" "Linux Programmer's Manual"
+.SH NAME
+.B _printf
+- formatted output conversion (format and print data)
+.SH SYNOPSIS
+.B #include """holberton.h"""
+.TP
+int _printf(const char *format, ...)
+.TP
+.B _printf FORMAT [ARGUMENT]
+.TP
+.B _printf OPTION
+.SH DESCRIPTION
+_printf is a function that produces output according to a format as described
+below. The function writes the output to stdout under the control of a format
+string that specifies how subsequent arguments are converted to output.
+.TP
+.B Strings
+.SH OPTIONS
+options
+.SH SEE ALSO
+functions
+.SH BUGS
+No known bugs
+.SH AUTHORS
