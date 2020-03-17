@@ -47,10 +47,10 @@ int _printf(const char *format, ...)
 	char *(*funct)(va_list, char *) = NULL;
 	va_list args;
 
-	if (!cursor)
+	if (!buff)
 	{
-		free(cursor);
-		return (0);
+		free(buff);
+		return (1);
 	}
 	if (format)
 	{
@@ -72,10 +72,7 @@ int _printf(const char *format, ...)
 		va_end(args);
 	}
 	else
-	{
-		write(2, "zero-length gnu_printf format string\n", 37);
-		return (2);
-	}
+		return (1);
 	*cursor = '\0', write(1, buff, str_ln(buff));
 	free(buff);
 	return (str_ln(buff));
