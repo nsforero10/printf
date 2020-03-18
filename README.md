@@ -28,3 +28,14 @@ by a signed conversion
 - #: The value is converted to an "Alternate form"
 - 0: The value is zero padded
 - -: The converted value is to be left adjusted on the field boundary
+*Other functions are used to handle everything:
+- char *handle_print_char(va_list list, char *cursor)
+- char *handle_print_string(va_list list, char *cursor)
+- char *handle_print_uint(va_list list, char *cursor)
+- char *handle_print_int(va_list list, char *cursor)
+- char *handle_print_binary(va_list list, char *cursor)
+- char *handle_print_octal(va_list list, char *cursor)
+- char *handle_print_hexa(va_list list, char *cursor)
+- char *handle_print_upper_hexa(va_list list, char *cursor)
+- char *handle_print_pointer(va_list list, char *cursor)
+- char *handle_print_reversed_string(va_list list, char *cursor)
