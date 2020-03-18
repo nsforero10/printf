@@ -54,7 +54,7 @@ char *handle_print_hexa(va_list list, char *cursor)
 char *handle_print_upper_hexa(va_list list, char *cursor)
 {
 	unsigned int current = va_arg(list, unsigned int);
-  
+
 	if (current == 0)
 	{
 		*cursor = '0', cursor++;
