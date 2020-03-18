@@ -3,19 +3,6 @@
 #include <unistd.h>
 
 /**
- * str_ln - calculates the lenght of a string
- * @p: the string to messure
- * Return: the lenght of the string
- */
-int str_ln(char *p)
-{
-	int i = 0;
-
-	while (*p)
-		i++, p++;
-	return (i);
-}
-/**
  * get_fmt_funct - get the apropiatted function to handle
  * the the conversion
  * @s: the identifier to handle
@@ -26,7 +13,18 @@ char * (*get_fmt_funct(const char *s))(va_list, char *)
 	unsigned int i = 0;
 	format_t fmts[] = {
 		{'c', handle_print_char},
-		{'s', handle_print_string}
+		{'s', handle_print_string},
+		{'d', handle_print_int},
+		{'i', handle_print_int},
+		{'u', handle_print_uint},
+		{'b', handle_print_binary},
+		{'o', handle_print_octal},
+		{'x', handle_print_hexa},
+		{'X', handle_print_upper_hexa},
+		{'p', handle_print_pointer},
+		{'r', handle_print_reversed_string},
+		{'S', handle_print_custom_string},
+		{'R', handle_print_rot13_string}
 	};
 
 	while (fmts[i].identifier)
@@ -45,41 +43,39 @@ char * (*get_fmt_funct(const char *s))(va_list, char *)
  */
 int _printf(const char *format, ...)
 {
-	char *buff = malloc(sizeof(char) * 2048), *org;
+	char *buff = calloc(2048, 1), *cursor = buff;
 	char *(*funct)(va_list, char *) = NULL;
 	va_list args;
 
 	if (!buff)
-	{
-		free(buff);
-		return (0);
-	}
-	org = buff;
+		return (free(buff), 1);
+	if (!format)
+		return (-1);
 	va_start(args, format);
-	if (format)
+	while (*format)
 	{
-		while (*format)
+		if (*format == '%')
 		{
-			if (*format == '%')
-			{
-				funct = get_fmt_funct(++format);
-				if (funct)
-				{
-					buff = funct(args, buff);
-				}
-				else
-					*buff = *format, buff++;
-			}
+			if (buff == cursor && !*(format  + 1))
+				return (-1);
+			funct = get_fmt_funct(format + 1);
+			if (funct)
+				cursor = funct(args, cursor), format++;
 			else
-				*buff = *format, buff++;
-			format++;
+			{
+				if (*(format  + 1) == '%')
+					format++;
+				*cursor = *format, cursor++;
+			}
 		}
+		else
+			*cursor = *format, cursor++;
+		format++;
 	}
-	else
-	{
-		write(2, "zero-length gnu_printf format string\n", 37);
-		return (2);
-	}
-	*buff = '\0', va_end(args), write(1, org, str_ln(org)), free(org);
-	return (str_ln(org));
+	va_end(args);
+	*cursor = '\0', write(1, buff, str_ln(buff));
+	if (*buff == '\0')
+		return (free(buff), 1);
+	free(buff);
+	return (str_ln(buff));
 }
