@@ -92,6 +92,11 @@ Conversion specifications are introduced by the character % and followed by a co
 .B h
 
 - When an integer conversion is followed, it corresponds to a shorrt int or unsigned short int.
+.TP
+.B Field width
+
+- This part is optional, it is a decimal digit string that specifies a minimum field width.
+
 .SH OPTIONS
 No options
 .SH SEE ALSO
