@@ -97,6 +97,10 @@ Conversion specifications are introduced by the character % and followed by a co
 
 - This part is optional, it is a decimal digit string that specifies a minimum field width.
 
+.TP
+.B Precision
+
+- This part is optional, it is a precision in the form of a period "." followed by an optional decimal digit string.
 .SH OPTIONS
 No options
 .SH SEE ALSO
