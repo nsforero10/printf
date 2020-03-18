@@ -77,15 +77,12 @@ char *converToStrPointer(long int current, unsigned int base, char *cursor)
 	char *org;
 
 	org = cursor;
-
 	while (current != 0)
 	{
 		*cursor = dict[current % base];
 		current = current / base;
 		cursor++;
 	}
-	*cursor = 'x', cursor++;
-	*cursor = '0', cursor++;
 	rev_string(org);
 	return (cursor);
 }

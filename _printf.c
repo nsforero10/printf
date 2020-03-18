@@ -48,32 +48,35 @@ int _printf(const char *format, ...)
 	va_list args;
 
 	if (!buff)
+
+		return (free(buff), 1);
+	if (!format)
+		return (-1);
+	va_start(args, format);
+	while (*format)
 	{
-		free(buff);
-		return (1);
-	}
-	if (format)
-	{
-		va_start(args, format);
-		while (*format)
+		if (*format == '%')
 		{
-			if (*format == '%')
-			{
-				funct = get_fmt_funct(++format);
-				if (funct)
-					cursor = funct(args, cursor);
-				else
-					*cursor = *format, cursor++;
-			}
+			if (buff == cursor && !*(format  + 1))
+				return (-1);
+			funct = get_fmt_funct(format + 1);
+			if (funct)
+				cursor = funct(args, cursor), format++;
 			else
+			{
+				if (*(format  + 1) == '%')
+					format++;
 				*cursor = *format, cursor++;
-			format++;
+			}
 		}
-		va_end(args);
+		else
+			*cursor = *format, cursor++;
+		format++;
 	}
-	else
-		return (1);
+	va_end(args);
 	*cursor = '\0', write(1, buff, str_ln(buff));
+	if (*buff == '\0')
+		return (free(buff), 1);
 	free(buff);
 	return (str_ln(buff));
 }

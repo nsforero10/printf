@@ -12,7 +12,7 @@
  */
 char *handle_print_char(va_list list, char *cursor)
 {
-	char current = va_arg(list, int);
+	char current = va_arg(list, unsigned int);
 
 	if (current)
 		*cursor = current, cursor++;
@@ -45,8 +45,13 @@ char *handle_print_string(va_list list, char *cursor)
  */
 char *handle_print_uint(va_list list, char *cursor)
 {
-	unsigned int current = va_arg(list, int);
+	unsigned int current = va_arg(list, unsigned int);
 
+	if (current == 0)
+	{
+		*cursor = '0', cursor++;
+		return (cursor);
+	}
 	if (current)
 		cursor = converToStrBase(current, 10, cursor);
 	return (cursor);
@@ -61,6 +66,11 @@ char *handle_print_int(va_list list, char *cursor)
 {
 	int current = va_arg(list, int);
 
+	if (current == 0)
+	{
+		*cursor = '0', cursor++;
+		return (cursor);
+	}
 	if (current)
 	{
 		if (current < 0)
@@ -80,6 +90,11 @@ char *handle_print_binary(va_list list, char *cursor)
 {
 	unsigned int current = va_arg(list, unsigned int);
 
+	if (current == 0)
+	{
+		*cursor = '0', cursor++;
+		return (cursor);
+	}
 	if (current)
 		cursor = converToStrBase(current, 2, cursor);
 	return (cursor);
