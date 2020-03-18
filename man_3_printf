@@ -1,4 +1,4 @@
-.TH _printf 1 "17 Mar 2020" "version 1.0" "Linux Programmer's Manual"
+.TH _printf 3 "17 Mar 2020" "version 1.0" "Linux Programmer's Manual"
 .SH NAME
 .B _printf
 - formatted output conversion (format and print data)
@@ -8,18 +8,95 @@
 int _printf(const char *format, ...)
 .TP
 .B _printf FORMAT [ARGUMENT]
-.TP
-.B _printf OPTION
 .SH DESCRIPTION
 _printf is a function that produces output according to a format as described
-below. The function writes the output to stdout under the control of a format
-string that specifies how subsequent arguments are converted to output.
+below, or just plain text that is ente as input between double quotes ("Example"). The function writes the output to stdout under the control of a format string that specifies how subsequent arguments are converted to output.
 .TP
-.B Strings
+.B Return value
+When the return is succesful, the function returns the number of characters printed, it is not included the null byte used to end output to strings.
+
+A negative value is returned if an output error is found.
+.TP
+.B Format of the arguments
+The format that belongs to the string inside the double quotes is composed of zero or more directives (that includes conervesion specifications that are preceded by %), characters that are not % are copied unchanged to the output stream.
+
+Conversion specifications are introduced by the character % and followed by a conversion specifier. Between this commands there may be zero or more flags, an optional minimun field width, and an optional precision and, also, an optional lenght specifier.
+.TP
+.B Conversion specifiers
+.B c
+
+- The int argument is converted to an unsigned char, and the resulting character is written
+
+.B s
+
+- The const char * argument is expected to be a pointer to an array of character type (pointer to a string). Characters from the array are written up to (but not including) a terminating null byte ('\0')
+
+.B d, i
+
+- The int argument is converted to signed decimal notation.
+
+.B b
+
+- The unsigned int argument is converted to binary
+
+.B u, o, x, X
+
+- The unsigned int argument is converted to unsigned octal (o), unsigned decimal (u), or unsigned hexadecimal (x and X) notation. The letters abcdef are used for x conversions; the letters ABCDEF are used for X conversions.
+
+.B S
+
+- Prints the string, non printable characters, 0 < ASCII value < 32 or >=127, are printed this way: \x followed by the ASCII code value in hexadecimal (upper case - always 2 characters)
+
+.B p
+
+- The void * pointer argument is printed in hexadecimal.
+
+.B r
+
+- Prints the reversed string.
+
+.B R
+
+- Prints the rot13'ed string.
+
+.TP
+.B Flag characters
+- The character % is followed by zero or more of the following flags:
+
+.B +
+
+- A sign (+ or -) should always be placed before a number produced by a signed conversion. By default a sign is used only for negative numbers. A + overrides a space if both are used.
+
+.B space
+
+- A blanck is left before a positive number, or empty string, introduced by a signed conversion.
+
+.B #
+
+- The value is converted to an "Alternate form".
+
+.B 0
+
+- The value is zero padded.
+
+.B -
+
+-The converted value is to be left adjusted on the field boundary.
+
+.TP
+.B Lenght modifiers
+.B l
+
+- When a integer conversion is followed, it corresponds to a long int or unsigned int argument, wide characters or strings.
+
+.B h
+
+- When an integer conversion is followed, it corresponds to a shorrt int or unsigned short int.
 .SH OPTIONS
-options
+No options
 .SH SEE ALSO
 functions
 .SH BUGS
 No known bugs
 .SH AUTHORS
+Nicolas Forero, Felipe Gutierrez.
